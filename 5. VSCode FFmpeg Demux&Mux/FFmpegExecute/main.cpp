@@ -160,7 +160,8 @@ void CloseOutput()
 int main(int args, char *argv[])
 {
     init();
-    int ret = openInput("http://vfx.mtime.cn/Video/2019/03/12/mp4/190312143927981075.mp4");
+    // http://vfx.mtime.cn/Video/2019/03/12/mp4/190312143927981075.mp4
+    int ret = openInput("http://vfx.mtime.cn/Video/2019/03/12/mp4/19031213927981075.mp4");
     if (ret < 0)
     {
         goto Error;
