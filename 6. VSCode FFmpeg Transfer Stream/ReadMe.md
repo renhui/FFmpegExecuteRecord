@@ -16,5 +16,4 @@ Visual Studio Code + FFmpeg 完成网络视频流转推到其他网络地址上�
 
 后续规划：
 
-暂无
-
+Visual Studio Code + FFmpeg 完成抽取视频中的音频数据内容并编码为AAC格式。
