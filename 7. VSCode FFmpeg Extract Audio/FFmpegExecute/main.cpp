@@ -42,8 +42,8 @@ void extractAudio()
     int audio_index = -1;
 
     // 打开输入文件
-    ret = avformat_open_input(&fmt_ctx, "D:/AVResource/Dusheng.rmvb", NULL, NULL);
-    //ret = avformat_open_input(&fmt_ctx, "http://vfx.mtime.cn/Video/2019/03/17/mp4/190317150237409904.mp4", NULL, NULL);
+    // ret = avformat_open_input(&fmt_ctx, "D:/AVResource/Dusheng.rmvb", NULL, NULL);
+    ret = avformat_open_input(&fmt_ctx, "http://vfx.mtime.cn/Video/2019/03/17/mp4/190317150237409904.mp4", NULL, NULL);
 
     // 检查打开输入文件是否成功
     if (ret < 0)
@@ -137,7 +137,7 @@ void adts_header(char *header, int dataLen)
      12: 7350 Hz */
     // 采样率下标：LC格式的为正常索引，HE格式的索引为除2后对应的采样索引
     // 因为：HE使用了SBR技术，即 Spectral Band Replication(频段复制)，所以存储同样的音频内容，HE文件较小。使用时采样率为LC的一半。
-    int sampling_frequency_index = 7;  
+    int sampling_frequency_index = 4;  
     // 声道数
     int channel_config = 2;
 
