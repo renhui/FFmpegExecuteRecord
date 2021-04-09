@@ -18,7 +18,7 @@ Visual Studio Code + FFmpeg 完成视频裁剪
 	使用 av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, 
 	outputContext->streams[0]->time_base)  对输出的流设置与输入流相同的时间基。
 
-  ** （涉及概念：tbs、tbr、tbc、tbn）**
+  **涉及概念：tbs、tbr、tbc、tbn**
 
  	tbn：the time base in AVStream that has come from the container 
  	（表示视频流 timebase（时间基准），比如ts流的timebase 为90000，flv格式视频流timebase为1000）
