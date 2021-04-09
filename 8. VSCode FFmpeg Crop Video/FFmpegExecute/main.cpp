@@ -31,6 +31,8 @@ extern "C"
 #define AVIO_FLAG_WRITE 2                                       /**< write-only */
 #define AVIO_FLAG_READ_WRITE (AVIO_FLAG_READ | AVIO_FLAG_WRITE) /**< read-write pseudo flag */
 
+#define AV_PKT_FLAG_KEY   0x0001 ///< The packet contains a keyframe
+
 // Copy From libavutil/avutil.h
 #define AV_NOPTS_VALUE ((int64_t)UINT64_C(0x8000000000000000))
 
@@ -187,9 +189,14 @@ int main(int args, char *argv[])
         if (ret >= 0)
         {
             packetCount++;
-            if (packetCount <= 1000 || packetCount >= 2000)
+
+            if(packet->flags & AV_PKT_FLAG_KEY) {
+                av_log(NULL, AV_LOG_INFO, "%d packet is key Frame!\n", packetCount);
+            }
+
+            if (packetCount <= 751 || packetCount >= 1996)
             {
-                if (packetCount < 1000)
+                if (packetCount < 751)
                 {
                     av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base);
                     ret = av_interleaved_write_frame(outputContext, packet);
@@ -205,16 +212,16 @@ int main(int args, char *argv[])
                     }
                 }
 
-                if (packetCount == 1000)
+                if (packetCount == 751)
                 {
-                    av_log(NULL, AV_LOG_INFO, "1000 packet->pts = %d\n", packet->pts);
+                    av_log(NULL, AV_LOG_INFO, "751 packet->pts = %d\n", packet->pts);
                     lastCutPacketPts = packet->pts;
                     lastCutPacketDts = packet->dts;
                 }
 
-                if (packetCount == 2000)
+                if (packetCount == 1996)
                 {
-                    av_log(NULL, AV_LOG_INFO, "2000 packet->pts = %d\n", packet->pts);
+                    av_log(NULL, AV_LOG_INFO, "1996 packet->pts = %d\n", packet->pts);
                     ptsDiff = packet->pts - lastCutPacketPts;
                     dtsDiff = packet->dts - lastCutPacketDts;
                     packet->pts = packet->pts - ptsDiff;
@@ -233,7 +240,7 @@ int main(int args, char *argv[])
                     }
                 }
 
-                if (packetCount > 2000)
+                if (packetCount > 1996)
                 {
                     packet->pts = packet->pts - ptsDiff;
                     packet->dts = packet->dts - dtsDiff;
