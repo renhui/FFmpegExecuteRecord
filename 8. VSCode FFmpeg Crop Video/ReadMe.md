@@ -14,7 +14,9 @@ Visual Studio Code + FFmpeg 完成视频裁剪
 	
 	2. if(packet->flags & AV_PKT_FLAG_KEY) 判断关键帧，避免出现花屏。
 	
-	3. 系统默认的H264的time_base= num=1/den=90000。如果不设置正确的时间基，会导致播放出现问题。使用 av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base)  对输出的流设置与输入流相同的时间基。
+	3. 系统默认的H264的time_base= num=1/den=90000。如果不设置正确的时间基，会导致播放出现问题。
+	使用 av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, 
+	outputContext->streams[0]->time_base)  对输出的流设置与输入流相同的时间基。
 
   ** （涉及概念：tbs、tbr、tbc、tbn）**
 
