@@ -191,6 +191,7 @@ int main(int args, char *argv[])
             {
                 if (packetCount < 1000)
                 {
+                    av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base);
                     ret = av_interleaved_write_frame(outputContext, packet);
                     if (ret >= 0)
                     {
@@ -218,6 +219,7 @@ int main(int args, char *argv[])
                     dtsDiff = packet->dts - lastCutPacketDts;
                     packet->pts = packet->pts - ptsDiff;
                     packet->dts = packet->dts - dtsDiff;
+                    av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base);
                     ret = av_interleaved_write_frame(outputContext, packet);
                     if (ret >= 0)
                     {
@@ -235,6 +237,7 @@ int main(int args, char *argv[])
                 {
                     packet->pts = packet->pts - ptsDiff;
                     packet->dts = packet->dts - dtsDiff;
+                    av_packet_rescale_ts(packet, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base);
                     ret = av_interleaved_write_frame(outputContext, packet);
                     if (ret >= 0)
                     {
