@@ -21,6 +21,19 @@ extern "C"
 #include "libswresample/swresample.h"
 }
 
+// Copy From libavutil/log.h
+#define AV_LOG_ERROR 16
+#define AV_LOG_WARNING 24
+#define AV_LOG_INFO 32
+
+// Copy From libavformat/avio.h
+#define AVIO_FLAG_READ 1                                        /**< read-only */
+#define AVIO_FLAG_WRITE 2                                       /**< write-only */
+#define AVIO_FLAG_READ_WRITE (AVIO_FLAG_READ | AVIO_FLAG_WRITE) /**< read-write pseudo flag */
+
+// Copy From libavutil/avutil.h
+#define AV_NOPTS_VALUE ((int64_t)UINT64_C(0x8000000000000000))
+
 using namespace std;
 
 AVFormatContext *inputContext;
@@ -142,25 +155,24 @@ void CloseOutput()
     }
 }
 
-
 int main(int args, char *argv[])
 {
 
-    int64_t diff = 0;
-    // 初始化 pts
-    int64_t lastPacketPts = AV_NOPTS_VALUE;
-    int64_t lastPts = AV_NOPTS_VALUE;
+    int64_t ptsDiff = 0;
+    int64_t dtsDiff = 0;
+    int64_t lastCutPacketPts = AV_NOPTS_VALUE;
+    int64_t lastCutPacketDts = AV_NOPTS_VALUE;
 
     init();
 
     int packetCount = 0;
 
-    int ret = openInput("D:/output.mp4");
+    int ret = openInput("F:/output.mp4");
     if (ret < 0)
     {
         goto Error;
     }
-    ret = openOuput("D:/123.mp4");
+    ret = openOuput("F:/123111.mp4");
     if (ret < 0)
     {
         goto Error;
@@ -175,13 +187,10 @@ int main(int args, char *argv[])
         if (ret >= 0)
         {
             packetCount++;
-            av_log(NULL, AV_LOG_INFO, "orginal packet->dts = %d\n", packet->dts);
             if (packetCount <= 1000 || packetCount >= 2000)
             {
-                if (lastPacketPts == AV_NOPTS_VALUE)
+                if (packetCount < 1000)
                 {
-                    lastPacketPts = packet->pts;
-                    packet->pts = packet->pts = lastPacketPts;
                     ret = av_interleaved_write_frame(outputContext, packet);
                     if (ret >= 0)
                     {
@@ -195,31 +204,47 @@ int main(int args, char *argv[])
                     }
                 }
 
-                if (diff == 0)
+                if (packetCount == 1000)
                 {
-                    diff = packet->pts - lastPacketPts;
+                    av_log(NULL, AV_LOG_INFO, "1000 packet->pts = %d\n", packet->pts);
+                    lastCutPacketPts = packet->pts;
+                    lastCutPacketDts = packet->dts;
                 }
 
-                if (diff > 0)
+                if (packetCount == 2000)
                 {
-                    lastPacketPts = lastPacketPts + diff;
-                    if (lastPacketPts != AV_NOPTS_VALUE)
+                    av_log(NULL, AV_LOG_INFO, "2000 packet->pts = %d\n", packet->pts);
+                    ptsDiff = packet->pts - lastCutPacketPts;
+                    dtsDiff = packet->dts - lastCutPacketDts;
+                    packet->pts = packet->pts - ptsDiff;
+                    packet->dts = packet->dts - dtsDiff;
+                    ret = av_interleaved_write_frame(outputContext, packet);
+                    if (ret >= 0)
                     {
-                        packet->pts = lastPacketPts;
-                        packet->dts = packet->pts;
+                        av_log(NULL, AV_LOG_INFO, "WritePacket Success!\n");
+                        continue;
+                    }
+                    else
+                    {
+                        av_log(NULL, AV_LOG_INFO, "WritePacket failed!\n");
+                        break;
                     }
                 }
-                av_log(NULL, AV_LOG_INFO, "set packet->dts = %d", packet->pts);
 
-                ret = av_interleaved_write_frame(outputContext, packet);
-                if (ret >= 0)
+                if (packetCount > 2000)
                 {
-                    av_log(NULL, AV_LOG_INFO, "WritePacket Success!\n");
-                }
-                else
-                {
-                    av_log(NULL, AV_LOG_INFO, "WritePacket failed!\n");
-                    break;
+                    packet->pts = packet->pts - ptsDiff;
+                    packet->dts = packet->dts - dtsDiff;
+                    ret = av_interleaved_write_frame(outputContext, packet);
+                    if (ret >= 0)
+                    {
+                        av_log(NULL, AV_LOG_INFO, "WritePacket Success!\n");
+                    }
+                    else
+                    {
+                        av_log(NULL, AV_LOG_INFO, "WritePacket failed!\n");
+                        break;
+                    }
                 }
             }
         }
