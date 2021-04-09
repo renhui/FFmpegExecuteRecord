@@ -18,11 +18,14 @@ Visual Studio Code + FFmpeg 完成视频裁剪
 
   ** （涉及概念：tbs、tbr、tbc、tbn）**
 
- 	  **tbn**= the time base in AVStream that has come from the container （表示视频流 timebase（时间基准），比如ts流的timebase 为90000，flv格式视频流timebase为1000）
+ 	tbn：the time base in AVStream that has come from the container 
+ 	（表示视频流 timebase（时间基准），比如ts流的timebase 为90000，flv格式视频流timebase为1000）
  	
- 	  **tbc**= the time base in AVCodecContext for the codec used for a particular stream（表示视频流codec timebase ，对于264码流该参数通过解析sps间接获取（通过sps获取帧率））
+ 	tbc：the time base in AVCodecContext for the codec used for a particular stream
+ 	（表示视频流codec timebase ，对于264码流该参数通过解析sps间接获取（通过sps获取帧率））
  	
- 	   **tbr**= tbr is guessed from the video stream and is the value users want to see when they look for the video frame rate（tbr 表示帧率，该参数倾向于一个基准，往往tbr跟fps相同。）
+ 	tbr：tbr is guessed from the video stream
+ 	（表示帧率，该参数倾向于一个基准，往往tbr跟fps相同。）
 
 **补充概念：**
 
