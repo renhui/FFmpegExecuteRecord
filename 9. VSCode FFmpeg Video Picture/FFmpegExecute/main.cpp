@@ -210,5 +210,9 @@ int main(int args, char *argv[])
             }
         }
     }
+   
+   // 写入文件尾对于写入视频文件来说，此函数必须调用，但是对于写入JPG文件来说，不调用此函数也没关系；
+   av_write_trailer(outputContext);
+
     return 0;
 }
