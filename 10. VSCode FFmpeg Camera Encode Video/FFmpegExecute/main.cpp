@@ -166,6 +166,7 @@ int main(int args, char *argv[])
             if (ret >= 0 && got_picture == 1)
             {
                 cout << "encoder success!" << endl;
+                pTmpPkt->pts = pTmpPkt->dts = packetCount * 100;
                 av_write_frame(outputContext, pTmpPkt);
                 av_packet_unref(inputPacket);
             }
