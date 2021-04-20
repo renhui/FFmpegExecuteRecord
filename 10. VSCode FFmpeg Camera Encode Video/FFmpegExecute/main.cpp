@@ -30,7 +30,6 @@ extern "C"
 // Copy From libavformat/avio.h
 #define AVIO_FLAG_READ 1                                        /**< read-only */
 #define AVIO_FLAG_WRITE 2                                       /**< write-only */
-#define AVIO_FLAG_READ_WRITE (AVIO_FLAG_READ | AVIO_FLAG_WRITE) /**< read-write pseudo flag */
 #define AVSEEK_FLAG_BACKWARD 1                                  ///< seek backward
 #define AVFMT_NOFILE 0x0001
 
@@ -48,8 +47,6 @@ AVFormatContext *outputContext;
 AVCodecContext *deCodecContext;
 // 用于编码
 AVCodecContext *enCodecContext;
-
-SwsContext *swsContext;
 
 int video_index = -1;
 
@@ -82,8 +79,8 @@ void openInputForDecodec()
         {
             video_index = i;
             AVCodec *codec = avcodec_find_decoder(stream->codecpar->codec_id);
-            printf("codec_id = %d", stream->codecpar->codec_id); // AV_CODEC_ID_MJPEG
-            printf("format_id = %d", stream->codecpar->format);
+            printf("codec_id = %d\n", stream->codecpar->codec_id); // AV_CODEC_ID_MJPEG
+            printf("format_id = %d\n", stream->codecpar->format);
             // 初始化解码器上下文
             deCodecContext = avcodec_alloc_context3(codec);
             // 设置解码器参数，从源视频拷贝参数
@@ -139,47 +136,38 @@ int main(int args, char *argv[])
     initEncodecContext();
     openOutputForEncode();
 
-    swsContext = sws_getContext(in_stream->codecpar->width, in_stream->codecpar->height, AV_PIX_FMT_YUVJ420P, enCodecContext->width, enCodecContext->height, AV_PIX_FMT_YUV420P, NULL, NULL, NULL, NULL);
-
     // 创建编码解码用的AVFrame
     AVFrame *deFrame = av_frame_alloc();
-    AVFrame *enFrame = av_frame_alloc();
 
-    AVPacket *in_pkt = NULL;
-    AVPacket *ou_pkt = NULL;
-    av_new_packet(in_pkt, sizeof(AVPacket));
-    av_new_packet(ou_pkt, sizeof(AVPacket));
+    AVPacket *inputPacket = (AVPacket *)av_malloc(sizeof(AVPacket));
+    av_init_packet(inputPacket);
+
     AVRational time_base = inputContext->streams[video_index]->time_base;
     AVRational frame_rate = inputContext->streams[video_index]->r_frame_rate;
 
     int packetCount = 0;
-    while (av_read_frame(inputContext, in_pkt) == 0)
+    while (av_read_frame(inputContext, inputPacket) == 0)
     {
-        if (in_pkt->stream_index != video_index)
+        if (inputPacket->stream_index != video_index)
         {
             continue;
         }
         // 先解码
-        avcodec_send_packet(deCodecContext, in_pkt);
+        avcodec_send_packet(deCodecContext, inputPacket);
         packetCount++;
         while (avcodec_receive_frame(deCodecContext, deFrame) >= 0)
         {
-            //因为源视频帧的格式和目标视频帧的格式可能不一致，所以这里需要转码
-            sws_scale(swsContext, deFrame->data, deFrame->linesize, 0, deFrame->height, enFrame->data, enFrame->linesize);
-
             int got_picture = 0;
-            enFrame->pts = enFrame->pkt_dts = packetCount * 1000;
-            avcodec_encode_video2(enCodecContext, ou_pkt, enFrame, &got_picture);
-
-            if (got_picture == 1)
+            AVPacket *pTmpPkt = (AVPacket *)av_malloc(sizeof(AVPacket));
+            av_init_packet(pTmpPkt);
+            pTmpPkt->data = NULL;
+            pTmpPkt->size = 0;
+            int ret = avcodec_encode_video2(enCodecContext, pTmpPkt, deFrame, &got_picture);
+            if (ret >= 0 && got_picture == 1)
             {
                 cout << "encoder success!" << endl;
-                // parpare packet for muxing
-                ou_pkt->stream_index = 0;
-                ou_pkt->pts = ou_pkt->dts =  packetCount * 1000;
-                av_packet_rescale_ts(ou_pkt, in_stream->time_base, out_stream->time_base);
-                av_interleaved_write_frame(outputContext, ou_pkt);
-                av_packet_unref(in_pkt);
+                av_write_frame(outputContext, pTmpPkt);
+                av_packet_unref(inputPacket);
             }
         }
     }
