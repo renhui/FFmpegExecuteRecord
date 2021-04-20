@@ -1,2 +1,2 @@
 # FFmpegExecuteRecord
-FFmpeg 执行合集（Base On Visual Studio Code + Mingw32）
+FFmpeg 基础功能模块执行合集（FFmpeg run function, Base On Visual Studio Code + Mingw32）
