@@ -28,9 +28,9 @@ extern "C"
 #define AV_LOG_INFO 32
 
 // Copy From libavformat/avio.h
-#define AVIO_FLAG_READ 1                                        /**< read-only */
-#define AVIO_FLAG_WRITE 2                                       /**< write-only */
-#define AVSEEK_FLAG_BACKWARD 1                                  ///< seek backward
+#define AVIO_FLAG_READ 1       /**< read-only */
+#define AVIO_FLAG_WRITE 2      /**< write-only */
+#define AVSEEK_FLAG_BACKWARD 1 ///< seek backward
 #define AVFMT_NOFILE 0x0001
 
 #define AV_PKT_FLAG_KEY 0x0001 ///< The packet contains a keyframe
@@ -55,8 +55,6 @@ AVStream *out_stream;
 
 void init()
 {
-    av_register_all();
-    avfilter_register_all();
     avformat_network_init();
     avdevice_register_all();
     av_log_set_level(AV_LOG_ERROR);
@@ -74,13 +72,14 @@ void openInputForDecodec()
     for (int i = 0; i < inputContext->nb_streams; i++)
     {
         AVStream *stream = inputContext->streams[i];
-        
+
         if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
         {
             video_index = i;
             AVCodec *codec = avcodec_find_decoder(stream->codecpar->codec_id);
             printf("codec_id = %d\n", stream->codecpar->codec_id); // AV_CODEC_ID_MJPEG
             printf("format_id = %d\n", stream->codecpar->format);
+            printf("r_frame_rate = %d\n", stream->r_frame_rate);
             // 初始化解码器上下文
             deCodecContext = avcodec_alloc_context3(codec);
             // 设置解码器参数，从源视频拷贝参数
@@ -106,7 +105,7 @@ void initEncodecContext()
     enCodecContext->framerate = in_stream->r_frame_rate;
     enCodecContext->time_base = in_stream->time_base;
     // 对于MJPEG编码器来说，它支持的是YUVJ420P/YUVJ422P/YUVJ444P格式的像素
-    enCodecContext->pix_fmt = AV_PIX_FMT_YUV420P;
+    enCodecContext->pix_fmt = AV_PIX_FMT_YUVJ422P;
 
     // 初始化编码器
     avcodec_open2(enCodecContext, codec, NULL);
@@ -123,7 +122,25 @@ void openOutputForEncode()
         avio_open2(&outputContext->pb, "F:/test.flv", AVIO_FLAG_WRITE, NULL, NULL);
     }
 
-    avformat_write_header(outputContext, NULL);
+    int ret = avformat_write_header(outputContext, NULL);
+    if (ret >= 0) {
+        cout << "Flv write header success!" << endl;
+    }
+}
+
+/**
+ * av_packet_rescale_ts()的功能：把AVPacket时间相关的成员的值转换成基于另一个时间基准的值。
+ * 
+ * 方法中的av_rescale_q()用于不同时间基的转换，用于将时间值从一种时间基转换为另一种时间基。
+ */
+void av_packet_rescale_ts(AVPacket *pkt, AVRational src_tb, AVRational dst_tb)
+{
+    if (pkt->pts != AV_NOPTS_VALUE)
+        pkt->pts = av_rescale_q(pkt->pts, src_tb, dst_tb);
+    if (pkt->dts != AV_NOPTS_VALUE)
+        pkt->dts = av_rescale_q(pkt->dts, src_tb, dst_tb);
+    if (pkt->duration > 0)
+        pkt->duration = av_rescale_q(pkt->duration, src_tb, dst_tb);
 }
 
 int main(int args, char *argv[])
@@ -162,14 +179,20 @@ int main(int args, char *argv[])
             av_init_packet(pTmpPkt);
             pTmpPkt->data = NULL;
             pTmpPkt->size = 0;
-            int ret = avcodec_encode_video2(enCodecContext, pTmpPkt, deFrame, &got_picture);
-            if (ret >= 0 && got_picture == 1)
-            {
-                cout << "encoder success!" << endl;
-                pTmpPkt->pts = pTmpPkt->dts = packetCount * 100;
-                av_write_frame(outputContext, pTmpPkt);
-                av_packet_unref(inputPacket);
-            }
+            enCodecContext->time_base = av_inv_q(deCodecContext->framerate);
+            avcodec_send_frame(enCodecContext, deFrame);
+            avcodec_receive_packet(enCodecContext, pTmpPkt);
+            cout << "encoder success!" << endl;
+            //pTmpPkt->pts = pTmpPkt->dts = packetCount * 100;
+            pTmpPkt->pts = inputPacket->pts;
+            pTmpPkt->dts = inputPacket->dts;
+            av_packet_rescale_ts(pTmpPkt, inputContext->streams[0]->time_base, outputContext->streams[0]->time_base);
+            av_write_frame(outputContext, pTmpPkt);
+            av_packet_unref(inputPacket);
+        }
+        // 定时关闭录制
+        if (packetCount >= 2000) {
+            break;
         }
     }
 
