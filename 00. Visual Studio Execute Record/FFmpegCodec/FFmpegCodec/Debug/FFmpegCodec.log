@@ -1,0 +1,41 @@
+﻿  FFmpegCodec.cpp
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavutil\rational.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(26): warning C4996: 'av_register_all': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(2043): note: 参见“av_register_all”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(96): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(97): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(99): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(109): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(114): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(116): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(121): warning C4018: “<”: 有符号/无符号不匹配
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(122): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(124): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(134): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(139): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(141): warning C4996: 'AVStream::codec': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(878): note: 参见“AVStream::codec”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(180): warning C4244: “初始化”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(182): warning C4244: “=”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(184): warning C4244: “=”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(213): warning C4244: “初始化”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(215): warning C4244: “=”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(217): warning C4244: “=”: 从“double”转换到“int64_t”，可能丢失数据
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(50): warning C4996: 'av_register_all': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavformat\avformat.h(2043): note: 参见“av_register_all”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(109): warning C4996: 'avcodec_copy_context': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavcodec\avcodec.h(4222): note: 参见“avcodec_copy_context”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(134): warning C4996: 'avcodec_copy_context': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavcodec\avcodec.h(4222): note: 参见“avcodec_copy_context”的声明
+c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\ffmpegcodec.cpp(244): warning C4996: 'av_free_packet': 被声明为已否决
+  c:\users\hefang\desktop\github\ffmpegcodec\ffmpegcodec\ffmpegcodec\include\libavcodec\avcodec.h(4460): note: 参见“av_free_packet”的声明
+  FFmpegCodec.vcxproj -> C:\Users\hefang\Desktop\GitHub\FFmpegCodec\FFmpegCodec\Debug\FFmpegCodec.exe

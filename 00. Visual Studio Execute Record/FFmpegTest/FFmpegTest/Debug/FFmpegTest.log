@@ -1,0 +1,16 @@
+﻿  FFmpegTest.cpp
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\include\libavutil\rational.h(1,1): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(103,43): warning C4244: “参数”: 从“uint64_t”转换到“size_t”，可能丢失数据
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(112,18): warning C4244: “=”: 从“uint64_t”转换到“uint8_t”，可能丢失数据
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(132,24): warning C4244: “=”: 从“uint64_t”转换到“int”，可能丢失数据
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(249,22): warning C4018: “<”: 有符号/无符号不匹配
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(246,10): warning C4102: “next_nal”: 未引用的标签
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(405,20): warning C4018: “<”: 有符号/无符号不匹配
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(614,20): warning C4018: “<”: 有符号/无符号不匹配
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(589,6): warning C4101: “len”: 未引用的局部变量
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(701,16): warning C4018: “<”: 有符号/无符号不匹配
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(666,28): warning C4101: “out_filename”: 未引用的局部变量
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(666,14): warning C4101: “in_filename”: 未引用的局部变量
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(835,20): warning C4018: “<”: 有符号/无符号不匹配
+D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\FFmpegTest\FFmpegTest.cpp(869,48): warning C4244: “参数”: 从“double”转换到“int64_t”，可能丢失数据
+  FFmpegTest.vcxproj -> D:\GiteeProject\FFmpegTest\practice\repos\FFmpegTest\Debug\FFmpegTest.exe
